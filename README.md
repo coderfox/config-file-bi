@@ -1,30 +1,59 @@
-node-ServerChan
+config-file-bi
 =====
 
-[![Build Status](https://travis-ci.org/coderfox/node-ServerChan.svg?branch=master)](https://travis-ci.org/coderfox/node-ServerChan)
+[![Build Status](https://travis-ci.org/coderfox/config-file-bi.svg?branch=master)](https://travis-ci.org/coderfox/config-file-bi)
+
+R/W config file management.
 
 Install
 -----
 
 ```
-npm install serverchan --save
+npm install config-file-bi --save
+```
+
+or
+
+```
+yarn add config-file-bi
 ```
 
 Usage
 -----
 
 ```TypeScript
-import ServerChanClient = require("serverchan");
+import * as Config from "config-file-bi";
 
-// create with SCKEY parameter
-let client = new ServerChanClient("SCKEY"); // replace SCKEY with your own
-// create with SCKEY in environment (SERVERCHAN_SCKEY)
-let client = new ServerChanClient();
+// previously only YAML format is supported
+let config = new Config("./config.yaml");
 
-client.sendMessage("title") // returns Promise
-  .then(() => { console.log("sent"); });
-client.sendMessage("title", "content") // returns Promise
-  .then(() => { console.log("sent"); });
+// load config from file, which will automatically create
+//     the file when file not exists
+await config.pull();
+// or
+config.pullSync();
+
+// and the not-creating file one
+await config.pullWhenExists();
+// or
+config.pullSyncWhenExists();
+
+// write config to file
+await config.push();
+// or
+config.pushSync();
+
+// get config by key
+config.get("something");
+
+// set config by key
+config.set("something", data);
+
+// set config by key, only when key exists
+config.setWhenExists("something", data);
+
+// throws error when key not exists for #get and #set
+config.KeyNotExistsError
 ```
 
 License

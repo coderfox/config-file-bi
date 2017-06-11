@@ -1,28 +1,17 @@
 "use strict";
 
 import * as yaml from "js-yaml";
-import * as fs from "fs";
+import * as fs from "fs-extra";
 
-// promisify fs operations
-let fsRead = (file: string, encoding?: string) => new Promise<string>((resolve, reject) => {
-  let callback = (err, data) => {
-    if (!err) { resolve(data); }
-    else { reject(err); };
-  };
-  if (encoding) { fs.readFile(file, encoding, callback); }
-  else { fs.readFile(file, callback); }
-});
-let fsWrite = (file: string, content: any, options?: { encoding?: string; mode?: string; flag?: string; }) =>
-  new Promise<void>((resolve, reject) => {
-    let callback = (err) => {
-      if (!err) { resolve(); }
-      else { reject(err); };
-    };
-    if (options) { fs.writeFile(file, content, options, callback); }
-    else { fs.writeFile(file, content, callback); }
-  });
-
-export = class Config {
+namespace Errors {
+  export class KeyNotExistsError extends Error {
+    constructor(key: string) {
+      super(`config key "${key}" does not exist`);
+      this.name = "KeyNotExistsError";
+    }
+  }
+}
+class Config {
   private filePath: string;
   public data = {};
   constructor(filePath: string) {
@@ -30,9 +19,9 @@ export = class Config {
   }
   pull = async () => {
     try {
-      this.data = yaml.safeLoad(await fsRead(this.filePath));
+      await this.pullWhenExists();
     } catch (err) {
-      if (err.code === 'ENOENT') {
+      if (err.code === "ENOENT") {
         await this.touch();
       } else {
         throw err;
@@ -40,13 +29,13 @@ export = class Config {
     }
   }
   pullWhenExists = async () => {
-    this.data = yaml.safeLoad(await fsRead(this.filePath));
+    this.data = yaml.safeLoad((await fs.readFile(this.filePath)).toString());
   }
   pullSync = () => {
     try {
-      this.data = yaml.safeLoad(fs.readFileSync(this.filePath).toString());
+      this.pullSyncWhenExists();
     } catch (err) {
-      if (err.code === 'ENOENT') {
+      if (err.code === "ENOENT") {
         this.touchSync();
       } else {
         throw err;
@@ -57,10 +46,7 @@ export = class Config {
     this.data = yaml.safeLoad(fs.readFileSync(this.filePath).toString());
   }
   push = async () => {
-    if (this.data === void 1) {
-      this.data = {};
-    }
-    await fsWrite(this.filePath, yaml.safeDump(this.data));
+    await fs.writeFile(this.filePath, yaml.safeDump(this.data));
   }
   pushSync = () => {
     fs.writeFileSync(this.filePath, yaml.safeDump(this.data));
@@ -75,23 +61,23 @@ export = class Config {
     if (this.data[name]) {
       return this.data[name];
     } else {
-      throw new Error("invalid config key");
+      throw new Errors.KeyNotExistsError(name);
     }
   }
   set = (name: string, data: any) => {
-    if (this.data) {
-      this.data[name] = data;
-    }
-    else {
-      this.data = {};
-      this.set(name, data);
-    }
+    this.data[name] = data;
   }
   setWhenExists = (name: string, data: any) => {
     if (name in this.data) {
       this.set(name, data);
     } else {
-      throw new Error("config key not defined");
+      throw new Errors.KeyNotExistsError(name);
     }
   }
 };
+
+namespace Config {
+  export let KeyNotExistsError = Errors.KeyNotExistsError;
+}
+
+export = Config;
