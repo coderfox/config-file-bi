@@ -1,0 +1,43 @@
+{
+  "name": "config-file-bi",
+  "version": "0.1.0",
+  "description": "R/W config files.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "postinstall": "tsc",
+    "pretest": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coderfox/config-file-bi.git"
+  },
+  "keywords": [
+    "ServerChan",
+    "SDK"
+  ],
+  "author": "coderfox",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/coderfox/config-file-bi/issues"
+  },
+  "homepage": "https://github.com/coderfox/config-file-bi#readme",
+  "dependencies": {
+    "@types/js-yaml": "^3.5.31",
+    "@types/node": "^7.0.29",
+    "js-yaml": "^3.8.4",
+    "typescript": "^2.3.4"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.0",
+    "@types/mocha": "^2.2.41",
+    "chai": "^4.0.2",
+    "cz-conventional-changelog": "^2.0.0",
+    "mocha": "^3.4.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
