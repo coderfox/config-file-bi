@@ -5,9 +5,9 @@ node_js:
   - 6
   - 5
   - 4
-script: yarn test
 before_install: yarn global add greenkeeper-lockfile@1
 before_script: greenkeeper-lockfile-update
+script: yarn run test-lcov
 after_script:
   - greenkeeper-lockfile-upload
-  - istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+  - cat ./coverage/lcov.info | ./node_modules/.bin/coveralls && rm -rf ./coverage

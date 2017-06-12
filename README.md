@@ -2,8 +2,11 @@ config-file-bi
 =====
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/coderfox/config-file-bi.svg)](https://greenkeeper.io/)
-
-[![Build Status](https://img.shields.io/travis/coderfox/config-file-bi.svg)](https://travis-ci.org/coderfox/config-file-bi)
+[![Build Status](https://img.shields.io/travis/coderfox/config-file-bi.svg?style=flat-square)](https://travis-ci.org/coderfox/config-file-bi)
+[![Coveralls](https://img.shields.io/coveralls/coderfox/config-file-bi.svg?style=flat-square)](https://coveralls.io/github/coderfox/config-file-bi)
+[![license](https://img.shields.io/github/license/coderfox/config-file-bi.svg?style=flat-square)](https://github.com/coderfox/config-file-bi/blob/master/LICENSE)
+[![npm](https://img.shields.io/npm/dt/config-file-bi.svg?style=flat-square)](https://www.npmjs.com/package/config-file-bi)
+[![npm](https://img.shields.io/npm/v/config-file-bi.svg?style=flat-square)](https://www.npmjs.com/package/config-file-bi)
 
 R/W config file management.
 
