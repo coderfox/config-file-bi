@@ -13,7 +13,7 @@ namespace Errors {
 }
 class Config {
   private filePath: string;
-  public data = {};
+  public data: any = {};
   constructor(filePath: string) {
     this.filePath = filePath;
   }
