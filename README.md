@@ -3,7 +3,7 @@ config-file-bi
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/coderfox/config-file-bi.svg)](https://greenkeeper.io/)
 
-[![Build Status](https://travis-ci.org/coderfox/config-file-bi.svg?branch=master)](https://travis-ci.org/coderfox/config-file-bi)
+[![Build Status](https://img.shields.io/travis/coderfox/config-file-bi.svg)](https://travis-ci.org/coderfox/config-file-bi)
 
 R/W config file management.
 
