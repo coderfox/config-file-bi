@@ -5,5 +5,7 @@ node_js:
   - 6
   - 5
   - 4
-script:
-  - yarn test
+script: yarn test
+before_install: yarn global add greenkeeper-lockfile@1
+before_script: greenkeeper-lockfile-update
+after_script: greenkeeper-lockfile-upload
